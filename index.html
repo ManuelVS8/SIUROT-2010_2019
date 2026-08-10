@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- memoria.html — CEIP Manuel Siurot (basado en v9) -->
+<!-- memoria.html — CEIP Manuel Siurot (PWA instalable, con pestaña de vídeos) -->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -7,6 +7,16 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/Web_Siurot/Logo_web.png">
 <title>CEIP Manuel Siurot · Promoción 2010-2019</title>
+
+<!-- PWA -->
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0F1B3D">
+<link rel="apple-touch-icon" href="icono192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Manuel Siurot">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -95,7 +105,24 @@
     backdrop-filter:blur(6px);
     border-bottom:1px solid rgba(255,255,255,.08);
     padding:14px 0;
+    display:flex; align-items:center; gap:8px;
   }
+  #installBtn{
+    display:none;
+    flex:0 0 auto;
+    align-items:center; justify-content:center;
+    width:38px; height:38px;
+    margin-left:16px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    color:#fff;
+    border:none;
+    font-size:1.1rem;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(245,158,66,.4);
+    touch-action:manipulation;
+  }
+  #installBtn.show{display:flex;}
   .tabs{
     display:flex; gap:10px; overflow-x:auto;
     padding:0 20px;
@@ -286,6 +313,7 @@
   </div>
 
   <div class="tabs-outer">
+    <button id="installBtn" aria-label="Instalar la app" title="Instalar app">⬇</button>
     <div class="tabs" id="tabs"></div>
   </div>
 
@@ -512,6 +540,50 @@
     toastEl.classList.add('show');
     setTimeout(() => toastEl.classList.remove('show'), 2200);
   };
+
+  // --- Botón de retroceder del móvil ---
+  // 1ª pulsación: si hay algo abierto o no estamos arriba del todo, lo cerramos/subimos.
+  // 2ª pulsación (ya arriba y sin nada abierto): se deja salir de la app con normalidad.
+  history.pushState({ appGuard: true }, '', location.href);
+  window.addEventListener('popstate', () => {
+    if (lb.classList.contains('open')) {
+      closeLightbox();
+      history.pushState({ appGuard: true }, '', location.href);
+      return;
+    }
+    if (window.scrollY > 40) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.pushState({ appGuard: true }, '', location.href);
+      return;
+    }
+    // Ya estamos arriba y no hay nada abierto: dejamos que la app se cierre con normalidad.
+  });
+
+  // --- Botón de instalar la app (solo aparece si el navegador la considera instalable) ---
+  const installBtn = document.getElementById('installBtn');
+  let deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.classList.add('show');
+  });
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    installBtn.classList.remove('show');
+  });
+  window.addEventListener('appinstalled', () => {
+    installBtn.classList.remove('show');
+  });
+
+  // --- Registro del service worker (necesario para poder "instalar" la web) ---
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
 })();
 </script>
 </body>

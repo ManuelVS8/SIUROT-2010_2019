@@ -1,0 +1,38 @@
+{
+  "name": "CEIP Manuel Siurot · Promoción 2010-2019",
+  "short_name": "Manuel Siurot",
+  "description": "Recuerdos en fotos y vídeos de la promoción 2010-2019 del CEIP Manuel Siurot",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F1B3D",
+  "theme_color": "#0F1B3D",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icono192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icono192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icono512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icono512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
