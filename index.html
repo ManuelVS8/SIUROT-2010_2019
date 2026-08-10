@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<!-- memoria.html — CEIP Manuel Siurot (basado en v9) -->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/Web_Siurot/Logo_web.png">
+<title>CEIP Manuel Siurot · Promoción 2010-2019</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0F1B3D;
+    --night-2:#1E3A8A;
+    --sky:#60A5FA;
+    --paper:#FFFBF3;
+    --accent:#F59E42;
+    --accent-2:#e07b1f;
+    --tape:#E3B23C;
+    --ink:#1E293B;
+    --ink-soft:#5b6478;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:
+      radial-gradient(1200px 500px at 15% -10%, rgba(96,165,250,.25), transparent 60%),
+      linear-gradient(180deg, var(--night) 0%, var(--night-2) 55%, #16265c 100%);
+    background-attachment:fixed;
+    color:var(--paper);
+    min-height:100vh;
+    width:100%;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 60px;}
+
+  /* HERO */
+  .hero{
+    padding:48px 16px 32px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-tape{
+    display:inline-block;
+    background:var(--tape);
+    color:#3a2c05;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;
+    letter-spacing:.08em;
+    padding:5px 14px;
+    transform:rotate(-2deg);
+    border-radius:2px;
+    box-shadow:0 2px 6px rgba(0,0,0,.25);
+    margin-bottom:22px;
+  }
+  .hero-logo{
+    width:96px;
+    height:96px;
+    object-fit:contain;
+    background:#fff;
+    padding:2px;
+    border-radius:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,.4);
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:'Caveat',cursive;
+    font-weight:700;
+    font-size:clamp(2.6rem, 7vw, 4.6rem);
+    margin:0 0 6px;
+    line-height:1.05;
+    color:#fff;
+    text-shadow:0 4px 24px rgba(0,0,0,.25);
+  }
+  .hero p{
+    font-size:1rem;
+    color:#c9d5f5;
+    max-width:520px;
+    margin:0 auto;
+  }
+  .hero-count{
+    margin-top:22px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.8rem;
+    color:#9db1e8;
+  }
+
+  /* DAY TABS */
+  .tabs-outer{
+    position:sticky; top:0; z-index:20;
+    background:linear-gradient(180deg, rgba(15,27,61,.96), rgba(15,27,61,.88));
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    padding:14px 0;
+  }
+  .tabs{
+    display:flex; gap:10px; overflow-x:auto;
+    padding:0 20px;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{
+    flex:0 0 auto;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:.82rem;
+    color:#c9d5f5;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1);
+    padding:10px 14px;
+    min-height:38px;
+    display:flex; align-items:center;
+    border-radius:9px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:transform .15s ease, background .15s ease, color .15s ease;
+    position:relative;
+    touch-action:manipulation;
+  }
+  .tab:hover{transform:translateY(-2px);}
+  .tab.active{
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 6px 16px rgba(245,158,66,.35);
+  }
+
+  /* GRID */
+  .day-label{
+    font-family:'Caveat',cursive;
+    font-size:2rem;
+    color:#fff;
+    margin:36px 4px 18px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(130px, 1fr));
+    gap:14px 12px;
+  }
+  @media (min-width:640px){
+    .grid{
+      grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));
+      gap:20px 16px;
+    }
+  }
+  .polaroid{
+    background:var(--paper);
+    padding:10px 10px 26px;
+    border-radius:3px;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+    cursor:pointer;
+    transform:rotate(var(--r,0deg));
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .polaroid:hover{
+    transform:rotate(0deg) scale(1.04) translateY(-4px);
+    box-shadow:0 14px 28px rgba(0,0,0,.45);
+    z-index:5;
+  }
+  .polaroid:nth-child(4n+1){--r:-2.5deg;}
+  .polaroid:nth-child(4n+2){--r:1.8deg;}
+  .polaroid:nth-child(4n+3){--r:-1.2deg;}
+  .polaroid:nth-child(4n+4){--r:2.4deg;}
+  .polaroid img{
+    width:100%; aspect-ratio:1/1; object-fit:cover;
+    display:block; background:#dfe4ee;
+    border-radius:1px;
+  }
+  .polaroid{position:relative;}
+  .play-icon{
+    position:absolute;
+    top:10px; left:10px; right:10px;
+    bottom:26px;
+    display:flex; align-items:center; justify-content:center;
+    pointer-events:none;
+  }
+  .play-icon::after{
+    content:'';
+    width:0; height:0;
+    border-top:11px solid transparent;
+    border-bottom:11px solid transparent;
+    border-left:18px solid rgba(255,255,255,.92);
+    margin-left:4px;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));
+  }
+  .play-icon::before{
+    content:'';
+    position:absolute;
+    width:44px; height:44px;
+    border-radius:50%;
+    background:rgba(15,27,61,.55);
+  }
+  .polaroid .num{
+    display:block;
+    text-align:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.68rem;
+    color:var(--ink-soft);
+    margin-top:8px;
+  }
+
+  /* EMPTY STATE */
+  .empty{
+    text-align:center;
+    padding:80px 20px;
+    color:#c9d5f5;
+  }
+  .empty h2{font-family:'Caveat',cursive; font-size:2.2rem; color:#fff; margin-bottom:8px;}
+  .empty code{
+    background:rgba(255,255,255,.08);
+    padding:2px 8px; border-radius:6px;
+    font-family:'JetBrains Mono',monospace; font-size:.85rem;
+  }
+
+  /* LIGHTBOX */
+  .lightbox{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(6,10,26,.94);
+    display:none;
+    align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img, .lightbox video{
+    max-width:min(92vw, 900px);
+    max-height:82vh;
+    border-radius:4px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+    background:#000;
+  }
+  .lb-btn{
+    position:absolute;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.25);
+    color:#fff;
+    width:44px; height:44px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    font-size:1.3rem;
+    transition:background .15s ease;
+  }
+  .lb-btn:hover{background:rgba(255,255,255,.22);}
+  .lb-close{top:20px; right:20px;}
+  .lb-prev{left:16px; top:50%; transform:translateY(-50%);}
+  .lb-next{right:16px; top:50%; transform:translateY(-50%);}
+  .lb-count{
+    position:absolute; bottom:22px; left:50%; transform:translateX(-50%);
+    font-family:'JetBrains Mono',monospace; font-size:.78rem; color:#9db1e8;
+  }
+  @media (max-width:640px){
+    .lb-prev{left:6px;} .lb-next{right:6px;}
+    .lb-btn{width:38px;height:38px;font-size:1.1rem;}
+  }
+
+  /* TOAST (sustituye a alert()) */
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:#fff; color:var(--ink);
+    padding:11px 20px; border-radius:10px;
+    font-size:.85rem; font-weight:600;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    z-index:200;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  footer{
+    text-align:center; padding:40px 20px 10px;
+    font-family:'Caveat',cursive; font-size:1.3rem;
+    color:#9db1e8;
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <img class="hero-logo" src="https://raw.githubusercontent.com/ManuelVS8/Audios-juegos-SCIENCE/refs/heads/main/Web_Siurot/Logo_web.png" alt="Logo CEIP Manuel Siurot">
+    <span class="hero-tape">CEIP MANUEL SIUROT · PROMOCIÓN 2010 – 2019</span>
+    <h1>Nuestra promoción, en fotos</h1>
+    <div class="hero-count" id="heroCount"></div>
+  </div>
+
+  <div class="tabs-outer">
+    <div class="tabs" id="tabs"></div>
+  </div>
+
+  <div class="wrap" id="content"></div>
+
+  <footer>Hecho con cariño para vosotros ✿</footer>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lb-btn lb-close" id="lbClose" aria-label="Cerrar">✕</button>
+    <button class="lb-btn lb-prev" id="lbPrev" aria-label="Anterior">‹</button>
+    <div id="lbMedia"></div>
+    <button class="lb-btn lb-next" id="lbNext" aria-label="Siguiente">›</button>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+(async function(){
+  const contentEl = document.getElementById('content');
+  const tabsEl = document.getElementById('tabs');
+  const heroCount = document.getElementById('heroCount');
+
+  let manifest = [];
+  try{
+    const res = await fetch('fotos/manifest.json');
+    if(!res.ok) throw new Error('no manifest');
+    manifest = await res.json();
+  }catch(e){
+    contentEl.innerHTML = `
+      <div class="empty">
+        <h2>Todavía no hay fotos cargadas</h2>
+        <p>Genera <code>fotos/manifest.json</code> con el script <code>organizar-fotos.js</code><br>
+        y súbelo junto a esta página, dentro de una carpeta <code>fotos/</code>.</p>
+      </div>`;
+    return;
+  }
+
+  if(!manifest.length){
+    contentEl.innerHTML = `<div class="empty"><h2>La carpeta de fotos está vacía</h2></div>`;
+    return;
+  }
+
+  const numVideos = manifest.filter(m => m.tipo === 'video').length;
+  heroCount.textContent = numVideos
+    ? `${manifest.length} recuerdos (${numVideos} vídeos)`
+    : `${manifest.length} fotos`;
+
+  // Agrupar por día (para subtítulos) y por año (para las pestañas)
+  const porDia = {};
+  manifest.forEach(item => {
+    (porDia[item.dia] = porDia[item.dia] || []).push(item);
+  });
+  const dias = Object.keys(porDia).sort();
+
+  const porAnio = {};
+  dias.forEach(dia => {
+    // Regla para esta promoción: las fotos sin fecha reconocible pertenecen a 2015,
+    // así que se agrupan ahí en vez de tener su propia pestaña "Sin fecha".
+    const anio = dia === 'sin-fecha' ? '2015' : dia.slice(0,4);
+    (porAnio[anio] = porAnio[anio] || []).push(dia);
+  });
+  const anios = Object.keys(porAnio).sort();
+
+  const fmt = (dia) => {
+    if (dia === 'sin-fecha') return 'Sin fecha';
+    const d = new Date(dia + 'T00:00:00');
+    if (isNaN(d.getTime())) {
+      const anio = dia.slice(0, 4);
+      return /^\d{4}$/.test(anio) ? `${anio} (fecha exacta no disponible)` : 'Fecha desconocida';
+    }
+    return d.toLocaleDateString('es-ES', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
+  };
+
+  // Sube la vista justo debajo de la barra de pestañas al cambiar de año,
+  // para no tener que hacer scroll manual hacia arriba
+  function irArribaDelContenido(){
+    const barra = document.querySelector('.tabs-outer');
+    const offset = barra ? barra.getBoundingClientRect().height : 0;
+    const y = contentEl.getBoundingClientRect().top + window.scrollY - offset - 8;
+    window.scrollTo({ top: Math.max(y, 0), behavior: 'smooth' });
+  }
+
+  // Tabs (por año)
+  let activeYear = 'todas';
+  function cambiarAnio(anio){
+    activeYear = anio;
+    renderTabs();
+    renderGrid();
+    irArribaDelContenido();
+  }
+  function renderTabs(){
+    tabsEl.innerHTML = '';
+    const allTab = document.createElement('div');
+    allTab.className = 'tab' + (activeYear==='todas' ? ' active' : '');
+    allTab.textContent = `Todas (${manifest.length})`;
+    allTab.onclick = () => cambiarAnio('todas');
+    tabsEl.appendChild(allTab);
+
+    anios.forEach(anio => {
+      const t = document.createElement('div');
+      t.className = 'tab' + (activeYear===anio ? ' active' : '');
+      t.textContent = anio === 'sin-fecha' ? 'Sin fecha' : anio;
+      t.onclick = () => cambiarAnio(anio);
+      tabsEl.appendChild(t);
+    });
+  }
+
+  let visibles = manifest; // fotos actualmente mostradas, para el lightbox
+  function renderGrid(){
+    contentEl.innerHTML = '';
+    const anioAMostrar = activeYear === 'todas' ? anios : [activeYear];
+    const diasAMostrar = anioAMostrar.flatMap(anio => porAnio[anio]);
+
+    visibles = [];
+    diasAMostrar.forEach(dia => {
+      const label = document.createElement('div');
+      label.className = 'day-label';
+      label.textContent = fmt(dia);
+      contentEl.appendChild(label);
+
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      porDia[dia].forEach(item => {
+        visibles.push(item);
+        const idx = visibles.length - 1;
+        const card = document.createElement('div');
+        card.className = 'polaroid';
+        const playIcon = item.tipo === 'video' ? '<span class="play-icon"></span>' : '';
+        card.innerHTML = `<img src="fotos/thumb/${item.thumb || item.file}" loading="lazy" alt="${item.tipo === 'video' ? 'Vídeo' : 'Foto'} ${item.id}">
+                           ${playIcon}
+                           <span class="num">#${String(item.id).padStart(4,'0')}</span>`;
+        card.onclick = () => openLightbox(idx);
+        grid.appendChild(card);
+      });
+      contentEl.appendChild(grid);
+    });
+  }
+
+  renderTabs();
+  renderGrid();
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  const lbMedia = document.getElementById('lbMedia');
+  const lbCount = document.getElementById('lbCount');
+  let current = 0;
+
+  function openLightbox(idx){
+    current = idx;
+    updateLightbox();
+    lb.classList.add('open');
+  }
+  function pausarVideoActual(){
+    const v = lbMedia.querySelector('video');
+    if (v) v.pause();
+  }
+  function updateLightbox(){
+    pausarVideoActual();
+    const item = visibles[current];
+    lbMedia.innerHTML = '';
+    if (item.tipo === 'video') {
+      const video = document.createElement('video');
+      video.src = `fotos/full/${item.file}`;
+      video.poster = `fotos/thumb/${item.thumb || ''}`;
+      video.controls = true;
+      video.playsInline = true;
+      lbMedia.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = `fotos/full/${item.file}`;
+      img.alt = `Foto ${item.id}`;
+      lbMedia.appendChild(img);
+    }
+    lbCount.textContent = `${current+1} / ${visibles.length}`;
+  }
+  function closeLightbox(){ pausarVideoActual(); lb.classList.remove('open'); }
+  function next(){ current = (current+1) % visibles.length; updateLightbox(); }
+  function prev(){ current = (current-1+visibles.length) % visibles.length; updateLightbox(); }
+
+  document.getElementById('lbClose').onclick = closeLightbox;
+  document.getElementById('lbNext').onclick = next;
+  document.getElementById('lbPrev').onclick = prev;
+  lb.addEventListener('click', (e) => { if(e.target === lb) closeLightbox(); });
+
+  document.addEventListener('keydown', (e) => {
+    if(!lb.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLightbox();
+    if(e.key === 'ArrowRight') next();
+    if(e.key === 'ArrowLeft') prev();
+  });
+
+  // swipe móvil
+  let touchX = null;
+  lb.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; });
+  lb.addEventListener('touchend', (e) => {
+    if(touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) > 50) dx < 0 ? next() : prev();
+    touchX = null;
+  });
+
+  // Toast helper (sin alert/confirm nativos)
+  const toastEl = document.getElementById('toast');
+  window.showToast = function(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), 2200);
+  };
+})();
+</script>
+</body>
+</html>
