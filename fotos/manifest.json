@@ -340,7 +340,7 @@
     "tipo": "foto",
     "file": "0043.jpg",
     "thumb": "0043.jpg",
-    ""dia": "2012-06-21",
+    "dia": "2012-06-21",
     "original": "DSC_0307.jpg"
   },
   {
@@ -21870,14 +21870,6 @@
     "thumb": "2734.jpg",
     "dia": "sin-fecha",
     "original": "SIUROT VIÑAS.mp4"
-  },
-  {
-    "id": 2735,
-    "tipo": "video",
-    "file": "2735.mp4",
-    "thumb": "2735.jpg",
-    "dia": "sin-fecha",
-    "original": "SIUROT VIÑAS2.mp4"
   },
   {
     "id": 2736,
