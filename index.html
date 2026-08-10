@@ -123,6 +123,23 @@
     touch-action:manipulation;
   }
   #installBtn.show{display:flex;}
+
+  /* BOTÓN DE MÚSICA DE FONDO */
+  .audio-btn{
+    position:fixed;
+    right:18px; bottom:18px;
+    width:56px; height:56px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    color:#fff;
+    border:none;
+    box-shadow:0 8px 22px rgba(0,0,0,.4);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem;
+    cursor:pointer;
+    z-index:50;
+    touch-action:manipulation;
+  }
   .tabs{
     display:flex; gap:10px; overflow-x:auto;
     padding:0 20px;
@@ -320,6 +337,9 @@
   <div class="wrap" id="content"></div>
 
   <footer>Hecho con cariño para vosotros ✿</footer>
+
+  <audio id="bgAudio" src="https://github.com/ManuelVS8/SIUROT-2010_2019/raw/refs/heads/main/Graduaci%C3%B3n%202019%20Siurot.mp3" loop preload="auto"></audio>
+  <button class="audio-btn" id="audioBtn" aria-label="Silenciar música" title="Silenciar música">🔇</button>
 
   <div class="lightbox" id="lightbox">
     <button class="lb-btn lb-close" id="lbClose" aria-label="Cerrar">✕</button>
@@ -540,6 +560,34 @@
     toastEl.classList.add('show');
     setTimeout(() => toastEl.classList.remove('show'), 2200);
   };
+
+  // --- Música de fondo (canción de graduación) ---
+  const bgAudio = document.getElementById('bgAudio');
+  const audioBtn = document.getElementById('audioBtn');
+  let audioIniciado = false;
+
+  function actualizarIconoAudio(){
+    audioBtn.textContent = (bgAudio.muted || bgAudio.paused) ? '🔇' : '🔊';
+  }
+
+  function intentarReproducir(){
+    bgAudio.play()
+      .then(() => { audioIniciado = true; actualizarIconoAudio(); })
+      .catch(() => { /* el navegador lo bloquea hasta que el usuario toque la pantalla */ });
+  }
+  intentarReproducir();
+
+  // En cuanto el usuario toque/haga clic en cualquier parte por primera vez, arrancamos el audio
+  document.addEventListener('click', function primerToque(){
+    if (!audioIniciado) intentarReproducir();
+    document.removeEventListener('click', primerToque);
+  }, { once: true });
+
+  audioBtn.addEventListener('click', () => {
+    if (!audioIniciado) { intentarReproducir(); return; }
+    bgAudio.muted = !bgAudio.muted;
+    actualizarIconoAudio();
+  });
 
   // --- Botón de retroceder del móvil ---
   // 1ª pulsación: si hay algo abierto o no estamos arriba del todo, lo cerramos/subimos.
