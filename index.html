@@ -565,6 +565,7 @@
   const bgAudio = document.getElementById('bgAudio');
   const audioBtn = document.getElementById('audioBtn');
   let audioIniciado = false;
+  bgAudio.volume = 0.5; // volumen moderado por defecto, para que no resulte escandaloso
 
   function actualizarIconoAudio(){
     audioBtn.textContent = (bgAudio.muted || bgAudio.paused) ? '🔇' : '🔊';
