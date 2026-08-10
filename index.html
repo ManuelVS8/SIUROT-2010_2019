@@ -369,8 +369,9 @@
     window.scrollTo({ top: Math.max(y, 0), behavior: 'smooth' });
   }
 
-  // Tabs (por año)
+  // Tabs (por año, más una pestaña especial de solo vídeos)
   let activeYear = 'todas';
+  const hayVideos = manifest.some(m => m.tipo === 'video');
   function cambiarAnio(anio){
     activeYear = anio;
     renderTabs();
@@ -385,6 +386,15 @@
     allTab.onclick = () => cambiarAnio('todas');
     tabsEl.appendChild(allTab);
 
+    if (hayVideos) {
+      const numVideos = manifest.filter(m => m.tipo === 'video').length;
+      const videosTab = document.createElement('div');
+      videosTab.className = 'tab' + (activeYear==='videos' ? ' active' : '');
+      videosTab.textContent = `🎬 Vídeos (${numVideos})`;
+      videosTab.onclick = () => cambiarAnio('videos');
+      tabsEl.appendChild(videosTab);
+    }
+
     anios.forEach(anio => {
       const t = document.createElement('div');
       t.className = 'tab' + (activeYear===anio ? ' active' : '');
@@ -397,11 +407,18 @@
   let visibles = manifest; // fotos actualmente mostradas, para el lightbox
   function renderGrid(){
     contentEl.innerHTML = '';
-    const anioAMostrar = activeYear === 'todas' ? anios : [activeYear];
+    const soloVideos = activeYear === 'videos';
+    const anioAMostrar = (activeYear === 'todas' || soloVideos) ? anios : [activeYear];
     const diasAMostrar = anioAMostrar.flatMap(anio => porAnio[anio]);
 
     visibles = [];
     diasAMostrar.forEach(dia => {
+      const itemsDelDia = soloVideos
+        ? porDia[dia].filter(item => item.tipo === 'video')
+        : porDia[dia];
+
+      if (itemsDelDia.length === 0) return; // nada que mostrar ese día en la vista de vídeos
+
       const label = document.createElement('div');
       label.className = 'day-label';
       label.textContent = fmt(dia);
@@ -409,7 +426,7 @@
 
       const grid = document.createElement('div');
       grid.className = 'grid';
-      porDia[dia].forEach(item => {
+      itemsDelDia.forEach(item => {
         visibles.push(item);
         const idx = visibles.length - 1;
         const card = document.createElement('div');
